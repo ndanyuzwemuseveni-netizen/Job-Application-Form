@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group input[type="date"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .radio-option label {
+            margin: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .file-upload {
+            border: 2px dashed #e0e0e0;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover {
+            border-color: #667eea;
+            background-color: #f8f9ff;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .file-upload-text {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .file-upload-icon {
+            font-size: 40px;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-option label {
+            margin: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .skills-table,
+        .position-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .skills-table th,
+        .skills-table td,
+        .position-table th,
+        .position-table td {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .skills-table th,
+        .position-table th {
+            background-color: #f8f9ff;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .skills-table tr:hover,
+        .position-table tr:hover {
+            background-color: #f8f9ff;
+        }
+
+        .skills-table input[type="checkbox"],
+        .position-table input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .skills-table label,
+        .position-table label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: normal;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-container {
+                padding: 25px;
+            }
+
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h1>Job Application Form</h1>
+            <img src="WhatsApp Image 2026-10-13 at 15.41.39.jpeg" alt="" style="width: 100px; height: auto; display: block; margin: 20px auto;">
+            <p>Please fill out all required fields to submit your application</p>
+        </div>
+
+        <form id="jobApplicationForm">
+            <!-- Full Name -->
+            <div class="form-group">
+                <label for="fullName">Full Name <span class="required">*</span></label>
+                <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">Email Address <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email address">
+            </div>
+
+            <!-- Phone Number -->
+            <div class="form-group">
+                <label for="phone">Phone Number <span class="required">*</span></label>
+                <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
+            </div>
+
+            <!-- Gender -->
+            <div class="form-group">
+                <label>Gender <span class="required">*</span></label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="male" name="gender" value="male" required>
+                        <label for="male">Male</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="female" name="gender" value="female">
+                        <label for="female">Female</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Date of Birth -->
+            <div class="form-group">
+                <label for="dateOfBirth">Date of Birth <span class="required">*</span></label>
+                <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+            </div>
+
+            <!-- Address -->
+            <div class="form-group">
+                <label for="address">Address <span class="required">*</span></label>
+                <textarea id="address" name="address" required placeholder="Enter your full address"></textarea>
+            </div>
+
+            <!-- Educational Level -->
+            <div class="form-group">
+                <label>Educational Level <span class="required">*</span></label>
+                <table class="skills-table">
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Education Level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox" id="high_school" name="education" value="high_school"></td>
+                            <td><label for="high_school">High School Diploma</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="associate" name="education" value="associate"></td>
+                            <td><label for="associate">Associate Degree</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="bachelor" name="education" value="bachelor"></td>
+                            <td><label for="bachelor">Bachelor's Degree</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="master" name="education" value="master"></td>
+                            <td><label for="master">Master's Degree</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="phd" name="education" value="phd"></td>
+                            <td><label for="phd">PhD</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="other_edu" name="education" value="other"></td>
+                            <td><label for="other_edu">Other</label></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Skills -->
+            <div class="form-group">
+                <label>Skills <span class="required">*</span></label>
+                <table class="skills-table">
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Skill</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox" id="communication" name="skills" value="communication"></td>
+                            <td><label for="communication">Communication</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="teamwork" name="skills" value="teamwork"></td>
+                            <td><label for="teamwork">Teamwork</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="leadership" name="skills" value="leadership"></td>
+                            <td><label for="leadership">Leadership</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="problem_solving" name="skills" value="problem_solving"></td>
+                            <td><label for="problem_solving">Problem Solving</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="technical" name="skills" value="technical"></td>
+                            <td><label for="technical">Technical</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="time_management" name="skills" value="time_management"></td>
+                            <td><label for="time_management">Time Management</label></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Position Applied For -->
+            <div class="form-group">
+                <label>Position Applied For <span class="required">*</span></label>
+                <table class="position-table">
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Position</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox" id="software_engineer" name="position" value="software_engineer"></td>
+                            <td><label for="software_engineer">Software Engineer</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="data_analyst" name="position" value="data_analyst"></td>
+                            <td><label for="data_analyst">Data Analyst</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="project_manager" name="position" value="project_manager"></td>
+                            <td><label for="project_manager">Project Manager</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="ui_ux_designer" name="position" value="ui_ux_designer"></td>
+                            <td><label for="ui_ux_designer">UI/UX Designer</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="marketing_specialist" name="position" value="marketing_specialist"></td>
+                            <td><label for="marketing_specialist">Marketing Specialist</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="hr_coordinator" name="position" value="hr_coordinator"></td>
+                            <td><label for="hr_coordinator">HR Coordinator</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="other_pos" name="position" value="other"></td>
+                            <td><label for="other_pos">Other</label></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- CV Upload -->
+            <div class="form-group">
+                <label>Upload CV/Resume <span class="required">*</span></label>
+                <div class="file-upload" onclick="document.getElementById('cvUpload').click()">
+                    <div class="file-upload-icon">📄</div>
+                    <div class="file-upload-text">Click to upload your CV/Resume (PDF, DOC, DOCX)</div>
+                    <input type="file" id="cvUpload" name="cvUpload" accept=".pdf,.doc,.docx" required>
+                </div>
+            </div>
+
+            <!-- Cover Letter -->
+            <div class="form-group">
+                <label for="coverLetter">Cover Letter</label>
+                <textarea id="coverLetter" name="coverLetter" placeholder="Tell us why you're interested in this position and why you'd be a great fit"></textarea>
+            </div>
+
+            <!-- Availability -->
+            <div class="form-group">
+                <label>Availability <span class="required">*</span></label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="full_time" name="availability" value="full_time" required>
+                        <label for="full_time">Full Time</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="part_time" name="availability" value="part_time">
+                        <label for="part_time">Part Time</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">Submit Application</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('jobApplicationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate at least one skill is selected
+            const skills = document.querySelectorAll('input[name="skills"]:checked');
+            if (skills.length === 0) {
+                alert('Please select at least one skill');
+                return;
+            }
+
+            // Validate at least one education level is selected
+            const education = document.querySelectorAll('input[name="education"]:checked');
+            if (education.length === 0) {
+                alert('Please select at least one education level');
+                return;
+            }
+
+            // Validate at least one position is selected
+            const position = document.querySelectorAll('input[name="position"]:checked');
+            if (position.length === 0) {
+                alert('Please select at least one position');
+                return;
+            }
+
+            // Collect form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Format date of birth to yyyy/mm/dd
+            if (data.dateOfBirth) {
+                const date = new Date(data.dateOfBirth);
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                data.dateOfBirth = `${year}/${month}/${day}`;
+            }
+            
+            // Handle multiple selections
+            data.skills = Array.from(skills).map(skill => skill.value);
+            data.education = Array.from(education).map(edu => edu.value);
+            data.position = Array.from(position).map(pos => pos.value);
+            
+            console.log('Form submitted successfully:', data);
+            alert('Application submitted successfully! We will review your application and get back to you soon.');
+            this.reset();
+        });
+
+        // Display selected file name
+        document.getElementById('cvUpload').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : '';
+            const uploadText = document.querySelector('.file-upload-text');
+            if (fileName) {
+                uploadText.textContent = `Selected: ${fileName}`;
+            } else {
+                uploadText.textContent = 'Click to upload your CV/Resume (PDF, DOC, DOCX)';
+            }
+        });
+    </script>
+</body>
+</html>
